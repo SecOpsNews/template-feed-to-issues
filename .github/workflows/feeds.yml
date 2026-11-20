@@ -1,0 +1,33 @@
+---
+name: Feeds
+
+on:
+    schedule:
+        - cron: "23 */2 * * *"
+    workflow_dispatch:
+
+permissions:
+    issues: write
+    contents: read
+
+jobs:
+    feed:
+        name: ${{ matrix.name }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - name: NCSC
+                      feed: "https://www.ncsc.gov.uk/api/1/services/v1/report-rss-feed.xml"
+                    - name: GitHubStatus
+                      feed: "https://www.githubstatus.com/history.rss"
+        steps:
+            - uses: guilhem/rss-issues-action@0.5.2
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  feed: ${{ matrix.feed }}
+                  prefix: "[${{ matrix.name }}]"
+                  dry-run: "false"
+                  lastTime: "24h"
+                  labels: ${{ matrix.name }}
