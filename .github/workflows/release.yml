@@ -1,0 +1,14 @@
+---
+name: Release
+
+on:
+    push:
+        branches: [main]
+
+permissions:
+    contents: write
+
+jobs:
+    release:
+        if: github.repository == 'SecOpsNews/template-feed-to-issues'
+        uses: thechelsuk/workflows/.github/workflows/release.yml@main
