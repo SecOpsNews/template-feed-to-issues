@@ -1,0 +1,13 @@
+name: New Issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  triage:
+    if: github.repository == 'SecOpsNews/template-feed-to-issues'
+    uses: thechelsuk/workflows/.github/workflows/new-issue.yml@main
